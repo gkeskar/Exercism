@@ -52,10 +52,6 @@ class Say
     NUMBER_TO_CARDINAL[number] || NUMBER_TO_CARDINAL[(digits.first * 10)] + "-" + NUMBER_TO_CARDINAL[digits.last]
   end
 
-  def slices(n)
-    digits.reverse.each_slice(n).to_a.map{ |slice| slice.reverse.filter(&:nonzero?) }
-  end
-
   def hundreds
     (hundredth, tenth) = number.divmod(100)
     hundredth_cardinal = Say.new(hundredth).in_english  + ' hundred '
