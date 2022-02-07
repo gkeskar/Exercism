@@ -14,7 +14,7 @@ class Say
   }
 
   def in_english
-    case num_of_digits
+    case number_of_digits
     when 1
       ones
     when 2
@@ -31,14 +31,14 @@ class Say
   def initialize(number)
     @number = number
     raise ArgumentError.new() if number < 0
-    raise ArgumentError.new() if num_of_digits > 12
+    raise ArgumentError.new() if number_of_digits > 12
   end
 
   def digits
     number.digits.reverse
   end
 
-  def num_of_digits
+  def number_of_digits
     digits.count
   end
 
@@ -55,14 +55,14 @@ class Say
   end
 
   def greater_than_tens
-    num_of_digits == 3 ? slices = slices(2) : slices = slices(3)
+    number_of_digits == 3 ? slices = slices(2) : slices = slices(3)
 
     slices.reduce("") do | output, slice |
       case slices.index(slice)
       when 0
         word = ""
       when 1
-        num_of_digits == 3 ? word = " hundred " : word = " thousand " 
+        number_of_digits == 3 ? word = " hundred " : word = " thousand "
       when 2
         word = " million "
       when 3
