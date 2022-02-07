@@ -68,7 +68,7 @@ class Say
       when 3
         word = " billion "
       end
-      slice.empty? ? "" + output : Say.new(slice.join.to_i).in_english + word + output
+      slice.empty? ? output : '%s%s%s' % [Say.new(slice.join.to_i).in_english, word, output]
     end.strip
   end
 end
