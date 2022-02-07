@@ -51,7 +51,7 @@ class Say
   end
 
   def slices(n)
-    digits.reverse.each_slice(n).to_a.map{|slice| slice.reverse.filter{|e| e.nonzero?} }
+    digits.reverse.each_slice(n).to_a.map{ |slice| slice.reverse.filter(&:nonzero?) }
   end
 
   def greater_than_tens
