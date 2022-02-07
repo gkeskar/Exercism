@@ -10,7 +10,7 @@ class Say
     6 => 'six',   16 => 'sixteen',   70  => 'seventy',
     7 => 'seven', 17 => 'seventeen', 80  => 'eighty',
     8 => 'eight', 18 => 'eigtheen',  90  => 'ninety',
-    9 => 'nine',  19 => 'nineteen',  100 => 'hundred'
+    9 => 'nine',  19 => 'nineteen'
   }
 
   def in_english
@@ -19,8 +19,10 @@ class Say
       ones
     when 2
       tens
+    when 3
+      hundreds
     else
-      greater_than_tens
+      greater_than_hundreds
     end
   end
 
@@ -54,21 +56,27 @@ class Say
     digits.reverse.each_slice(n).to_a.map{ |slice| slice.reverse.filter(&:nonzero?) }
   end
 
-  def greater_than_tens
-    number_of_digits == 3 ? slices = slices(2) : slices = slices(3)
+  def hundreds
+    (hundredth, tenth) = number.divmod(100)
+    hundredth_cardinal = Say.new(hundredth).in_english  + ' hundred '
+    tenth_cardinal = tenth.zero? ? "" : Say.new(tenth).in_english
+    (hundredth_cardinal + tenth_cardinal).strip
+  end
 
+  def greater_than_hundreds
+    slices = number.digits(1000)
     slices.reduce("") do | output, slice |
       case slices.index(slice)
       when 0
         word = ""
       when 1
-        number_of_digits == 3 ? word = " hundred " : word = " thousand "
+        word = " thousand "
       when 2
         word = " million "
       when 3
         word = " billion "
       end
-      slice.empty? ? output : '%s%s%s' % [Say.new(slice.join.to_i).in_english, word, output]
+      slice.zero? ? output : '%s%s%s' % [Say.new(slice).in_english, word, output]
     end.strip
   end
 end
