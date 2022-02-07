@@ -26,6 +26,14 @@ class Say
 
   private
 
+  attr_reader :number
+
+  def initialize(number)
+    @number = number
+    raise ArgumentError.new() if number < 0
+    raise ArgumentError.new() if num_of_digits > 12
+  end
+
   def digits
     number.digits.reverse
   end
@@ -62,13 +70,5 @@ class Say
       end
       slice.empty? ? "" + output : Say.new(slice.join.to_i).in_english + word + output
     end.strip
-  end
-
-  attr_reader :number
-
-  def initialize(number)
-    @number = number
-    raise ArgumentError.new() if number < 0
-    raise ArgumentError.new() if num_of_digits > 12
   end
 end
