@@ -58,30 +58,30 @@ class Say
   end
 
   def tens
-    NUMBER_TO_CARDINAL[number] || NUMBER_TO_CARDINAL[(digits.first * 10)] + "-" + NUMBER_TO_CARDINAL[digits.last]
+    NUMBER_TO_CARDINAL[number] ||
+      '%s-%s' % [NUMBER_TO_CARDINAL[(digits.first * 10)], NUMBER_TO_CARDINAL[digits.last]]
   end
 
   def hundreds
     (hundredth, tenth) = number.divmod(100)
-    hundredth_cardinal = Say.new(hundredth).in_english  + ' hundred '
-    tenth_cardinal = tenth.zero? ? "" : Say.new(tenth).in_english
-    (hundredth_cardinal + tenth_cardinal).strip
+    hundredth_cardinal = '%s %s ' % [Say.new(hundredth).in_english, 'hundred']
+    tenth_cardinal = tenth.nonzero? && Say.new(tenth).in_english
+    (hundredth_cardinal + tenth_cardinal.to_s).strip
   end
 
   def greater_than_hundreds
     slices = number.digits(1000)
     slices.reduce("") do | output, slice |
+
       case slices.index(slice)
-      when 0
-        word = ""
       when 1
-        word = " thousand "
+        word = "thousand"
       when 2
-        word = " million "
+        word = "million"
       when 3
-        word = " billion "
+        word = "billion"
       end
-      slice.zero? ? output : '%s%s%s' % [Say.new(slice).in_english, word, output]
+      slice.zero? ? output : '%s %s %s' % [Say.new(slice).in_english, word, output]
     end.strip
   end
 end
