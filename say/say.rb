@@ -71,15 +71,15 @@ class Say
 
   def greater_than_hundreds
     slices = number.digits(1000)
-    slices.reduce("") do | output, slice |
+    slices.reduce('') do | output, slice |
 
       case slices.index(slice)
       when 1
-        word = "thousand"
+        word = 'thousand'
       when 2
-        word = "million"
+        word = 'million'
       when 3
-        word = "billion"
+        'billion'
       end
       slice.zero? ? output : '%s %s %s' % [Say.new(slice).in_english, word, output]
     end.strip
