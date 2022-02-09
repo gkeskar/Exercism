@@ -73,11 +73,11 @@ class Say
     slices = number.digits(1000)
     slices.reduce('') do | output, slice |
 
-      case slices.index(slice)
+      word = case slices.index(slice)
       when 1
-        word = 'thousand'
+        'thousand'
       when 2
-        word = 'million'
+        'million'
       when 3
         'billion'
       end
