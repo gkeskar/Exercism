@@ -1,5 +1,14 @@
+class NaturalNumberError < ArgumentError
+  def initialize(message = 'Not an integer greater than -1')
+  end
+end
+
+class NumberNotSupportedError < ArgumentError
+  def initialize(message = 'Number is too large')
+  end
+end
+
 class Say
-  
   NUMBER_TO_CARDINAL = {
     0 => 'zero',  10 => 'ten',
     1 => 'one',   11 => 'eleven',    20  => 'twenty',
@@ -32,8 +41,8 @@ class Say
 
   def initialize(number)
     @number = number
-    raise ArgumentError.new() if number < 0
-    raise ArgumentError.new() if number_of_digits > 12
+    raise NaturalNumberError if number < 0
+    raise NumberNotSupportedError if number_of_digits > 12
   end
 
   def digits
