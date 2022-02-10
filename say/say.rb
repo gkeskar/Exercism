@@ -22,6 +22,12 @@ class Say
     9 => 'nine',  19 => 'nineteen'
   }
 
+  POWERS_OF_THOUSANDS = {
+    1 => 'thousand',
+    2 => 'million',
+    3 => 'billion'
+  }
+
   def in_english
     case number_of_digits
     when 1
@@ -72,15 +78,7 @@ class Say
   def greater_than_hundreds
     slices = number.digits(1000)
     slices.reduce('') do | output, slice |
-
-      word = case slices.index(slice)
-      when 1
-        'thousand'
-      when 2
-        'million'
-      when 3
-        'billion'
-      end
+      word = POWERS_OF_THOUSANDS[slices.index(slice)]
       slice.zero? ? output : '%s %s %s' % [Say.new(slice).in_english, word, output]
     end.strip
   end
