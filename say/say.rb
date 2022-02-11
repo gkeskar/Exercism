@@ -33,6 +33,18 @@ class Say
     3 => 'billion'
   }
 
+  private
+
+  attr_reader :number
+
+  def initialize(number)
+    @number = number
+    raise NaturalNumberError if number < 0
+    raise NumberNotSupportedError if number_of_digits > 12
+  end
+
+  public
+
   def in_english
     case number_of_digits
     when 1
@@ -44,16 +56,6 @@ class Say
     else
       greater_than_hundreds
     end
-  end
-
-  private
-
-  attr_reader :number
-
-  def initialize(number)
-    @number = number
-    raise NaturalNumberError if number < 0
-    raise NumberNotSupportedError if number_of_digits > 12
   end
 
   def digits
