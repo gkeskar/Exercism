@@ -1,14 +1,19 @@
 class NaturalNumberError < ArgumentError
+
   def initialize(message = 'Not an integer greater than -1')
   end
+
 end
 
 class NumberNotSupportedError < ArgumentError
+
   def initialize(message = 'Number is too large')
   end
+
 end
 
 class Say
+
   NUMBER_TO_CARDINAL = {
     0 => 'zero',  10 => 'ten',
     1 => 'one',   11 => 'eleven',    20  => 'twenty',
@@ -82,4 +87,5 @@ class Say
       slice.zero? ? output : '%s %s %s' % [Say.new(slice).in_english, word, output]
     end.strip
   end
+
 end
