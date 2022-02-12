@@ -33,14 +33,24 @@ class Say
     3 => 'billion'
   }
 
+  POWER_OF_THOUSAND = 3
+  CARDINAL = 'billion'
+
   private
 
-  attr_reader :number
+  attr_reader :number, :range
 
-  def initialize(number)
+  def initialize(number, range = [ POWER_OF_THOUSAND, CARDINAL])
     @number = number
     raise NaturalNumberError if number < 0
-    raise NumberNotSupportedError if number_of_digits > 12
+    raise NumberNotSupportedError if number_of_digits > 13
+    add_new_range(range) unless POWERS_OF_THOUSANDS.has_key?(range[0])
+  end
+
+  def add_new_range(range)
+    power_of_thosand = range[0]
+    cardinal = range[1]
+    POWERS_OF_THOUSANDS[power_of_thosand] = cardinal
   end
 
   public
