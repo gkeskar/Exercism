@@ -42,8 +42,9 @@ class Say
 
   def initialize(number, range = [ POWER_OF_THOUSAND, CARDINAL])
     @number = number
+    max_digits = (1000 ** (range[0])).digits.count + 2
     raise NaturalNumberError if number < 0
-    raise NumberNotSupportedError if number_of_digits > 13
+    raise NumberNotSupportedError if number_of_digits > max_digits
     add_new_range(range) unless POWERS_OF_THOUSANDS.has_key?(range[0])
   end
 
