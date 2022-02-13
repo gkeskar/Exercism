@@ -33,22 +33,26 @@ class Say
     3 => 'billion'
   }
 
-  POWER_OF_THOUSAND = 3
-  CARDINAL = 'billion'
+  DEFAULT_POWER_OF_THOUSAND = 3
+  DEFAULT_CARDINAL = 'billion'
+
+  def to_s
+    in_english
+  end
 
   private
 
   attr_reader :number, :range
 
-  def initialize(number, range = [ POWER_OF_THOUSAND, CARDINAL])
+  def initialize(number, range = [ DEFAULT_POWER_OF_THOUSAND, DEFAULT_CARDINAL])
     @number = number
     max_digits = (1000 ** (range[0])).digits.count + 2
     raise NaturalNumberError if number < 0
     raise NumberNotSupportedError if number_of_digits > max_digits
-    add_new_range(range) unless POWERS_OF_THOUSANDS.has_key?(range[0])
+    add_range(range) unless POWERS_OF_THOUSANDS.has_key?(range[0])
   end
 
-  def add_new_range(range)
+  def add_range(range)
     power_of_thosand = range[0]
     cardinal = range[1]
     POWERS_OF_THOUSANDS[power_of_thosand] = cardinal
