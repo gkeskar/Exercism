@@ -1,6 +1,7 @@
 class NaturalNumberError < ArgumentError
 
   def initialize(message = 'Not an integer greater than -1')
+    super
   end
 
 end
@@ -8,6 +9,7 @@ end
 class NumberNotSupportedError < ArgumentError
 
   def initialize(message = 'Number is too large')
+    super
   end
 
 end
@@ -33,32 +35,23 @@ class Say
     3 => 'billion'
   }
 
-  DEFAULT_POWER_OF_THOUSAND = 3
-  DEFAULT_CARDINAL = 'billion'
+  private
+
+  attr_reader :number, :powers
+
+  def initialize(number, powers = POWERS_OF_THOUSANDS)
+    @number = number
+    @powers = powers
+    max_digits = (1000 ** (powers.to_a.last[0])).digits.count + 2
+    raise NaturalNumberError if number < 0
+    raise NumberNotSupportedError if number_of_digits > max_digits
+  end
+
+  public
 
   def to_s
     in_english
   end
-
-  private
-
-  attr_reader :number, :range
-
-  def initialize(number, range = [ DEFAULT_POWER_OF_THOUSAND, DEFAULT_CARDINAL])
-    @number = number
-    max_digits = (1000 ** (range[0])).digits.count + 2
-    raise NaturalNumberError if number < 0
-    raise NumberNotSupportedError if number_of_digits > max_digits
-    add_range(range) unless POWERS_OF_THOUSANDS.has_key?(range[0])
-  end
-
-  def add_range(range)
-    power_of_thosand = range[0]
-    cardinal = range[1]
-    POWERS_OF_THOUSANDS[power_of_thosand] = cardinal
-  end
-
-  public
 
   def in_english
     case number_of_digits
@@ -100,8 +93,8 @@ class Say
   def greater_than_hundreds
     slices = number.digits(1000)
     slices.reduce('') do | output, slice |
-      word = POWERS_OF_THOUSANDS[slices.index(slice)]
-      slice.zero? ? output : '%s %s %s' % [Say.new(slice).in_english, word, output]
+      slices.index(slice).zero? ? word = "" : word = powers[slices.index(slice)]
+      slice.zero? ? output : '%s %s %s' % [Say.new(slice), word, output]
     end.strip
   end
 
