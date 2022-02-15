@@ -6,73 +6,73 @@ class SayTest < Minitest::Test
   def test_zero
     # skip
     number = 0
-    assert_equal "zero", Say.new(number).to_s
+    assert_equal "zero", Say.new(number).in_english
   end
 
   def test_one
     # skip
     number = 1
-    assert_equal "one", Say.new(number).to_s
+    assert_equal "one", Say.new(number).in_english
   end
 
   def test_fourteen
     # skip
     number = 14
-    assert_equal "fourteen", Say.new(number).to_s
+    assert_equal "fourteen", Say.new(number).in_english
   end
 
   def test_twenty
     # skip
     number = 20
-    assert_equal "twenty", Say.new(number).to_s
+    assert_equal "twenty", Say.new(number).in_english
   end
 
   def test_twenty_two
     # skip
     number = 22
-    assert_equal "twenty-two", Say.new(number).to_s
+    assert_equal "twenty-two", Say.new(number).in_english
   end
 
   def test_one_hundred
     # skip
     number = 100
-    assert_equal "one hundred", Say.new(number).to_s
+    assert_equal "one hundred", Say.new(number).in_english
   end
 
   def test_one_hundred_twenty_three
     # skip
     number = 123
-    assert_equal "one hundred twenty-three", Say.new(number).to_s
+    assert_equal "one hundred twenty-three", Say.new(number).in_english
   end
 
   def test_one_thousand
     # skip
     number = 1_000
-    assert_equal "one thousand", Say.new(number).to_s
+    assert_equal "one thousand", Say.new(number).in_english
   end
 
   def test_one_thousand_two_hundred_thirty_four
     # skip
     number = 1_234
-    assert_equal "one thousand two hundred thirty-four", Say.new(number).to_s
+    assert_equal "one thousand two hundred thirty-four", Say.new(number).in_english
   end
 
   def test_one_million
     # skip
     number = 1_000_000
-    assert_equal "one million", Say.new(number).to_s
+    assert_equal "one million", Say.new(number).in_english
   end
 
   def test_one_million_two_thousand_three_hundred_forty_five
     # skip
     number = 1_002_345
-    assert_equal "one million two thousand three hundred forty-five", Say.new(number).to_s
+    assert_equal "one million two thousand three hundred forty-five", Say.new(number).in_english
   end
 
   def test_one_billion
     # skip
     number = 1_000_000_000
-    assert_equal "one billion", Say.new(number).to_s
+    assert_equal "one billion", Say.new(number).in_english
   end
 
   def test_a_big_number
@@ -88,40 +88,44 @@ class SayTest < Minitest::Test
     # skip
     number = -1
     assert_raises(ArgumentError) do
-      Say.new(number).to_s
+      Say.new(number).in_english
     end
   end
 
   def test_trillion_number_1_000_000_000_000
     # skip
     number = 1_000_000_000_000
-    output = Say.new(number, [4, 'trillion']).to_s
+    my_expanded_numbers = {1 => 'thousand', 2 => 'million', 3 => 'billion', 4 => 'trillion'}
+    output = Say.new(number, my_expanded_numbers).to_s
     assert_equal "one trillion", output
-    assert_equal "one trillion", Say.new(number, [4, 'trillion']).in_english
+    assert_equal "one trillion", Say.new(number, my_expanded_numbers).in_english
   end
 
   def test_trillion_number_1_234_456_890_123
     # skip
     number = 1_234_456_890_123
-    output = Say.new(number, [4, 'trillion']).to_s
+    my_expanded_numbers = {1 => 'thousand', 2 => 'million', 3 => 'billion', 4 => 'trillion'}
+    output = Say.new(number, my_expanded_numbers).to_s
     assert_equal "one trillion two hundred thirty-four billion four hundred fifty-six million eight hundred ninety thousand one hundred twenty-three", output
-    assert_equal "one trillion two hundred thirty-four billion four hundred fifty-six million eight hundred ninety thousand one hundred twenty-three", Say.new(number, [4, 'trillion']).in_english
+    assert_equal "one trillion two hundred thirty-four billion four hundred fifty-six million eight hundred ninety thousand one hundred twenty-three", Say.new(number, my_expanded_numbers).in_english
   end
 
   def test_number_1_000_000_000_000_000_out_of_trillion_range
     # skip
     number = 1_000_000_000_000_000
+    my_expanded_numbers = {1 => 'thousand', 2 => 'million', 3 => 'billion', 4 => 'trillion'}
     assert_raises(ArgumentError) do
-      Say.new(number, [4, 'trillion']).to_s
+      Say.new(number, my_expanded_numbers).in_english
     end
   end
 
   def test_number_1_000_000_000_000_000
     # skip
     number = 1_000_000_000_000_000
-    output = Say.new(number, [5, 'quadrillion']).to_s
+    my_expanded_numbers = {1 => 'thousand', 2 => 'million', 3 => 'billion', 4 => 'trillion', 5 => 'quadrillion'}
+    output = Say.new(number, my_expanded_numbers).to_s
     assert_equal "one quadrillion", output
-    assert_equal "one quadrillion", Say.new(number, [5, 'quadrillion']).in_english
+    assert_equal "one quadrillion", Say.new(number, my_expanded_numbers).in_english
   end
 
   def test_numbers_above_999_999_999_999_are_out_of_default_range
