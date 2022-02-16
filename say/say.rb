@@ -97,3 +97,16 @@ class Say
   alias :to_s :in_english
 
 end
+
+if $PROGRAM_NAME == __FILE__
+  expanded_use = {
+    1 => 'thousand',
+    2 => 'million',
+    3 => 'billion',
+    4 => 'trillion',
+    5 => 'quadrillion',
+    6 => 'quintillion',
+    7 => 'pentillion'
+  }
+  puts Say.new(1_234_567_890_123_456_789_123, expanded_use )
+end
