@@ -18,15 +18,15 @@ class Say
 
   NUMBER_TO_CARDINAL = {
     0 => 'zero',  10 => 'ten',
-    1 => 'one',   11 => 'eleven',    20  => 'twenty',
-    2 => 'two',   12 => 'twelve',    30  => 'thirty',
-    3 => 'three', 13 => 'thirteen',  40  => 'forty',
-    4 => 'four',  14 => 'fourteen',  50  => 'fifty',
-    5 => 'five',  15 => 'fifteen',   60  => 'sixty',
-    6 => 'six',   16 => 'sixteen',   70  => 'seventy',
-    7 => 'seven', 17 => 'seventeen', 80  => 'eighty',
-    8 => 'eight', 18 => 'eigtheen',  90  => 'ninety',
-    9 => 'nine',  19 => 'nineteen'
+    1 => 'one',   11 => 'eleven',
+    2 => 'two',   12 => 'twelve',    20  => 'twenty',
+    3 => 'three', 13 => 'thirteen',  30  => 'thirty',
+    4 => 'four',  14 => 'fourteen',  40  => 'forty',
+    5 => 'five',  15 => 'fifteen',   50  => 'fifty',
+    6 => 'six',   16 => 'sixteen',   60  => 'sixty',
+    7 => 'seven', 17 => 'seventeen', 70  => 'seventy',
+    8 => 'eight', 18 => 'eigtheen',  80  => 'eighty',
+    9 => 'nine',  19 => 'nineteen',   90  => 'ninety'
   }
 
   POWERS_OF_THOUSANDS = {
@@ -42,27 +42,10 @@ class Say
   def initialize(number, powers = POWERS_OF_THOUSANDS)
     @number = number
     @powers = powers
-    max_digits = (1000 ** (powers.to_a.last[0])).digits.count + 2
-    raise NaturalNumberError if number < 0
-    raise NumberNotSupportedError if number_of_digits > max_digits
+    max_digits = (1000**powers.keys.last).digits.count + 2
+    number >= 0 or raise NaturalNumberError
+    number_of_digits <= max_digits or raise NumberNotSupportedError
   end
-
-  public
-
-  def in_english
-    case number_of_digits
-    when 1
-      ones
-    when 2
-      tens
-    when 3
-      hundreds
-    else
-      greater_than_hundreds
-    end
-  end
-
-  alias :to_s :in_english
 
   def digits
     number.digits.reverse
@@ -82,7 +65,7 @@ class Say
   end
 
   def hundreds
-    (hundredth, tenth) = number.divmod(100)
+    hundredth, tenth = number.divmod(100)
     hundredth_cardinal = '%s %s ' % [Say.new(hundredth).in_english, 'hundred']
     tenth_cardinal = tenth.nonzero? && Say.new(tenth).in_english
     (hundredth_cardinal + tenth_cardinal.to_s).strip
@@ -95,5 +78,22 @@ class Say
       slice.zero? ? output : '%s %s %s' % [Say.new(slice), word, output]
     end.strip
   end
+
+  public
+
+  def in_english
+    case number_of_digits
+    when 1
+      ones
+    when 2
+      tens
+    when 3
+      hundreds
+    else
+      greater_than_hundreds
+    end
+  end
+
+  alias :to_s :in_english
 
 end
