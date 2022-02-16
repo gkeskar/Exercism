@@ -49,10 +49,6 @@ class Say
 
   public
 
-  def to_s
-    in_english
-  end
-
   def in_english
     case number_of_digits
     when 1
@@ -65,6 +61,8 @@ class Say
       greater_than_hundreds
     end
   end
+
+  alias :to_s :in_english
 
   def digits
     number.digits.reverse
