@@ -42,6 +42,10 @@ class Say
   def initialize(number, powers = POWERS_OF_THOUSANDS)
     @number = number
     @powers = powers
+    valid?
+  end
+
+  def valid?
     max_digits = (1000**powers.keys.last).digits.count + 2
     number >= 0 or raise NaturalNumberError
     number_of_digits <= max_digits or raise NumberNotSupportedError
@@ -106,7 +110,8 @@ if $PROGRAM_NAME == __FILE__
     4 => 'trillion',
     5 => 'quadrillion',
     6 => 'quintillion',
-    7 => 'pentillion'
+    7 => 'sextillion',
+    8 => 'septillion'
   }
-  puts Say.new(1_234_567_890_123_456_789_123, expanded_use )
+  puts Say.new(1_234_567_890_123_456_789_123_456, expanded_use )
 end
