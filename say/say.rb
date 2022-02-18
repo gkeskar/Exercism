@@ -77,8 +77,8 @@ class Say
 
   def greater_than_hundreds
     slices = number.digits(1000)
-    slices.reduce('') do | output, slice |
-      slices.index(slice).zero? ? word = "" : word = powers[slices.index(slice)]
+    slices.each_with_index.reduce('') do |output, (slice, index)|
+      index.zero? ? word = "" : word = powers[index]
       slice.zero? ? output : '%s %s %s' % [Say.new(slice), word, output]
     end.strip
   end
