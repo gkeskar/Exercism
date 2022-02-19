@@ -11,11 +11,11 @@ class Triangle
   public
 
   def rows
-    (1..number_of_rows).each_with_object([]) do |row, output|
+    (1..number_of_rows).each_with_object([]) do |row, result|
       if row == 1
-        output << [1]
+        result << [1]
       else
-        last_row = output[row - 2]
+        last_row = result[row - 2]
         index = 0
         next_row = []
         next_row[0] = last_row.last
@@ -24,7 +24,7 @@ class Triangle
           index =+ 1
         end
         next_row << last_row.last
-        output << next_row
+        result << next_row
       end
     end
   end
