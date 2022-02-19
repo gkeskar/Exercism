@@ -11,8 +11,7 @@ class Triangle
   public
 
   def rows
-    output = []
-    (1..number_of_rows).each do |row|
+    (1..number_of_rows).each_with_object([]) do |row, output|
       if row == 1
         output << [1]
       else
@@ -28,7 +27,6 @@ class Triangle
         output << next_row
       end
     end
-    output
   end
 
 end
