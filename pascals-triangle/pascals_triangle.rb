@@ -19,7 +19,7 @@ class Triangle
         index = 0
         next_row = []
         next_row[0] = last_row.last
-        (0..(last_row.count - 2)).each do |index|
+        0.upto(last_row.count - 2).each do |index|
           next_row << last_row[index] + last_row[index + 1]
           index =+ 1
         end
