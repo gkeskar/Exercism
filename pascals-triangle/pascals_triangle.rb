@@ -14,7 +14,7 @@ class Triangle
 
   def new_elements(last_row)
     number_of_elements = last_row.size - 2
-    0.upto(number_of_elements).each_with_object([]).with_index do |(_, array), index|
+    0.upto(number_of_elements).with_index.each_with_object([]) do |(_, index), array|
        array << last_row[index] + last_row[index + 1]
     end
   end
