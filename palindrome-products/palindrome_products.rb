@@ -22,7 +22,7 @@ class Palindromes
     @factors = []
   end
 
-  def is_palindrome?(number)
+  def palindrome?(number)
     number.digits == number.digits.reverse
   end
 
@@ -30,12 +30,14 @@ class Palindromes
     @factors.find{ |palindrome| palindrome.value == value }
   end
 
-  def generate_palindromes
+  def generated_palindromes
     @range.repeated_combination(2).each_with_object([]) do |combination, result|
       product = combination.reduce(:*)
-      if  is_palindrome?(product)
+      if palindrome?(product)
         found = palindrome_has_a_value(product)
-        found ? found.add_factors(combination) : @factors << PalindromeAccessor.new(product, combination)
+        found ?
+          found.add_factors(combination) :
+          @factors << PalindromeAccessor.new(product, combination)
       end
     end
   end
@@ -43,15 +45,15 @@ class Palindromes
   public
 
   def largest
-    @largest ||= @factors.sort_by{ |palindrome| palindrome.value }.last
+    @largest ||= @factors.sort_by { |palindrome| palindrome.value }.last
   end
 
   def smallest
-    @smallest ||= @factors.sort_by{ |palindrome| palindrome.value }.first
+    @smallest ||= @factors.sort_by { |palindrome| palindrome.value }.first
   end
 
   def generate
-    @palindromes ||= generate_palindromes
+    @generated_palindromes ||= generated_palindromes
   end
 
 end
