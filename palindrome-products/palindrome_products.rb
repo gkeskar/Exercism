@@ -1,4 +1,5 @@
 class PalindromeAccessor
+  require 'byebug'
 
   def initialize(value, factors)
     @value = value
@@ -29,7 +30,7 @@ class Palindromes
   end
 
   def palindrome_has_a_value(value)
-    factors.find{ |palindrome| palindrome.value == value }
+    factors.find { |palindrome| palindrome.value == value }
   end
 
   def generated_palindromes
@@ -42,20 +43,21 @@ class Palindromes
           factors << PalindromeAccessor.new(product, combination)
       end
     end
+    factors.sort_by! { |palindrome| palindrome.value }
   end
 
   public
 
+  def generate
+    @generated_palindromes ||= generated_palindromes
+  end
+
   def largest
-    @largest ||= factors.sort_by { |palindrome| palindrome.value }.last
+    @largest ||= factors.last
   end
 
   def smallest
-    @smallest ||= factors.sort_by { |palindrome| palindrome.value }.first
-  end
-
-  def generate
-    @generated_palindromes ||= generated_palindromes
+    @smallest ||= factors.first
   end
 
 end
