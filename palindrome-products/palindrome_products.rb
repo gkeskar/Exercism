@@ -1,9 +1,8 @@
 class PalindromeAccessor
-  require 'byebug'
 
-  def initialize(value, factors)
+  def initialize(value, *factors)
     @value = value
-    @factors = [factors]
+    @factors = factors
   end
 
   attr_reader :value, :factors
@@ -18,11 +17,11 @@ class Palindromes
 
   private
 
-  attr_reader :factors, :range
+  attr_reader :palindromes, :candidates
 
   def initialize(min_factor: 1, max_factor:)
-    @range = min_factor.upto(max_factor).to_a
-    @factors = []
+    @candidates = min_factor.upto(max_factor).to_a
+    @palindromes = []
   end
 
   def palindrome?(number)
@@ -30,20 +29,20 @@ class Palindromes
   end
 
   def palindrome_has_a_value(value)
-    factors.find { |palindrome| palindrome.value == value }
+    palindromes.find { |palindrome| palindrome.value == value }
   end
 
   def generated_palindromes
-    range.repeated_combination(2).each_with_object([]) do |combination, result|
+    candidates.repeated_combination(2).each_with_object([]) do |combination, result|
       product = combination.reduce(:*)
       if palindrome?(product)
         found = palindrome_has_a_value(product)
         found ?
           found.add_factors(combination) :
-          factors << PalindromeAccessor.new(product, combination)
+          palindromes << PalindromeAccessor.new(product, combination)
       end
     end
-    factors.sort_by! { |palindrome| palindrome.value }
+    palindromes.sort_by! { |palindrome| palindrome.value }
   end
 
   public
@@ -53,11 +52,11 @@ class Palindromes
   end
 
   def largest
-    @largest ||= factors.last
+    @largest ||= palindromes.last
   end
 
   def smallest
-    @smallest ||= factors.first
+    @smallest ||= palindromes.first
   end
 
 end
