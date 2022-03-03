@@ -6,10 +6,10 @@ class FoodChain
     3 => 'bird', 4 => 'cat', 
     5 => 'dog',  6 => 'goat',
     7 => 'cow',  8 => 'horse'
-  }
+  }.freeze
 
   ACTION = {
-    'fly' => "Perhaps she'll die.",
+    'fly' => "I don't know why she swallowed the fly. Perhaps she'll die.",
     'spider' => "It wriggled and jiggled and tickled inside her.",
     'bird' => "How absurd to swallow a bird!",
     'cat' => "Imagine that, to swallow a cat!",
@@ -17,56 +17,43 @@ class FoodChain
     'goat' => "Just opened her throat and swallowed a goat!",
     'cow' => "I don't know how she swallowed a cow!",
     'horse' => "She's dead, of course!"
-  }
+  }.freeze
 
   def self.song
     (1..8).map do |number_of_stanzas|
-      if number_of_stanzas == 1
-        first_stanza + "\n"
-      else
-        stanza(number_of_stanzas) + "\n"
-      end
+      stanza(number_of_stanzas) + "\n"
     end.join
   end
 
-  def self.first_stanza
-    first_line = "I know an old lady who swallowed a fly."
-    first_line_action = "\nI don't know why she swallowed the fly. Perhaps she'll die."
-    first_line + first_line_action
+  def self.first_two_lines(number)
+    animal = ANIMALS[number]
+    action = ACTION[animal]
+    "I know an old lady who swallowed a #{animal}.\n#{action}"
   end
 
+  def self.previous_lines(number)
+    stanza(number - 1).gsub("\n" + first_two_lines(number - 1),"")
+  end
 
   def self.stanza(number)
-    first_line_action = "\nI don't know why she swallowed the fly. Perhaps she'll die."
-    last_line = "I know an old lady who swallowed a horse.\nShe's dead, of course!"
-    return if number == 1
-    if number == 2
-      add_new_line1(number) + add_new_line2(number) + (first_line_action)
+    if number == 1
+      first_two_lines(1)
     elsif number == 8
-      "\n" + last_line
+      "\n" + first_two_lines(8)
+    elsif number == 2
+      "\n" + first_two_lines(number) + new_line(number) + "\n#{ACTION['fly']}"
     else
-      (add_new_line1(number) + add_new_line2(number) + (stanza(number - 1))).gsub(add_new_line1(number - 1),"")
+      "\n"  + first_two_lines(number) + new_line(number) + previous_lines(number)
     end
   end
 
-  def self.add_new_line1(number)
-    return if number == 1
+  def self.new_line(number)
     animal = ANIMALS[number]
     previous_animal = ANIMALS[number - 1]
     action = ACTION[animal]
-    line1 = "\nI know an old lady who swallowed a #{animal}." + "\n#{action}"
-  end
-
-  def self.add_new_line2(number)
-    return if number == 1
-    animal = ANIMALS[number]
-    previous_animal = ANIMALS[number - 1]
-    action = ACTION[animal]
-    if previous_animal == 'spider'
+    previous_animal == 'spider' ?
       line2 = "\nShe swallowed the #{animal} to catch the spider that wriggled and jiggled and tickled inside her."
-    else
-      line2 = "\nShe swallowed the #{animal} to catch the #{previous_animal}."
-    end
+      : line2 = "\nShe swallowed the #{animal} to catch the #{previous_animal}."
   end
 
 end
