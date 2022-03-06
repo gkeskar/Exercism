@@ -27,6 +27,7 @@ class FoodChain
   end
 
   def self.third_line(number)
+    return "" if ( number == 0 || number == 7 )
     animal = ANIMALS_AND_ACTIONS.keys[number]
     previous_animal = ANIMALS_AND_ACTIONS.keys[number - 1]
     action = ANIMALS_AND_ACTIONS[animal]
@@ -37,6 +38,8 @@ class FoodChain
   end
 
   def self.cumulative_lines(number)
+    return "" if ( number == 0 || number == 7 )
+    return  "\n%s" % [ANIMALS_AND_ACTIONS['fly']] if number == 1
     lines = number.downto(2).each_with_object("") do | number_of_stanzas, result |
       result << third_line(number_of_stanzas - 1)
     end
@@ -44,17 +47,9 @@ class FoodChain
   end
 
   def self.stanza(number)
-    case number
-
-    when 0
-      first_two_lines(number)
-    when 1
-      "\n%s" "%s" "\n%s" % [first_two_lines(number), third_line(number), ANIMALS_AND_ACTIONS['fly']]
-    when 2..6
-       "\n%s" "%s" "%s" % [first_two_lines(number), third_line(number), cumulative_lines(number)]
-    when 7
-      "\n%s" % [first_two_lines(number)]
-    end
+    lines = first_two_lines(number) + third_line(number) + cumulative_lines(number)
+    number == 0 ?
+      lines : "\n%s" % [lines]
   end
 
 end
