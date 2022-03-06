@@ -39,20 +39,23 @@ class FoodChain
   end
 
   def self.cumulative_lines(number)
-    stanza(number - 1).gsub( "\n%s" % [first_two_lines(number - 1)],"")
+    lines = number.downto(2).each_with_object("") do | number_of_stanzas, result |
+      result << third_line(number_of_stanzas - 1)
+    end
+    "%s" "\n%s" % [lines, ACTION['fly']]
   end
 
   def self.stanza(number)
     case number
 
     when 0
-      first_two_lines(0)
-    when 7
-      "\n%s" % [first_two_lines(7)]
+      first_two_lines(number)
     when 1
-      "\n%s" "%s" "\n%s" % [first_two_lines(1), third_line(1), ACTION['fly']]
-    else
+      "\n%s" "%s" "\n%s" % [first_two_lines(number), third_line(number), ACTION['fly']]
+    when 2..6
        "\n%s" "%s" "%s" % [first_two_lines(number), third_line(number), cumulative_lines(number)]
+    when 7
+      "\n%s" % [first_two_lines(number)]
     end
   end
 
