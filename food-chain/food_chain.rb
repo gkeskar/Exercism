@@ -2,9 +2,7 @@ class FoodChain
 
   OPENING_PHRASE = "I know an old lady who swallowed a"
 
-  ANIMALS = [ 'fly', 'spider', 'bird', 'cat', 'dog', 'goat','cow', 'horse' ]
-
-  ACTION = {
+  ANIMALS_AND_ACTIONS = {
     'fly' => "I don't know why she swallowed the fly. Perhaps she'll die.",
     'spider' => "wriggled and jiggled and tickled inside her.",
     'bird' => "How absurd to swallow a bird!",
@@ -23,17 +21,17 @@ class FoodChain
   end
 
   def self.first_two_lines(number)
-    animal = ANIMALS[number]
-      action = animal == 'spider' ? "It " + ACTION['spider'] : action = ACTION[animal]
+    animal = ANIMALS_AND_ACTIONS.keys[number]
+      action = animal == 'spider' ? "It " + ANIMALS_AND_ACTIONS['spider'] : action = ANIMALS_AND_ACTIONS[animal]
     "%s %s.\n%s" % [OPENING_PHRASE, animal, action]
   end
 
   def self.third_line(number)
-    animal = ANIMALS[number]
-    previous_animal = ANIMALS[number - 1]
-    action = ACTION[animal]
+    animal = ANIMALS_AND_ACTIONS.keys[number]
+    previous_animal = ANIMALS_AND_ACTIONS.keys[number - 1]
+    action = ANIMALS_AND_ACTIONS[animal]
     opening_phrase = "She swallowed the #{animal} to catch the #{previous_animal}"
-    spider_phrase = "that #{ACTION['spider']}"
+    spider_phrase = "that #{ANIMALS_AND_ACTIONS['spider']}"
     previous_animal == 'spider' ?
       "\n%s %s" % [opening_phrase, spider_phrase] : "\n%s." % [opening_phrase]
   end
@@ -42,7 +40,7 @@ class FoodChain
     lines = number.downto(2).each_with_object("") do | number_of_stanzas, result |
       result << third_line(number_of_stanzas - 1)
     end
-    "%s" "\n%s" % [lines, ACTION['fly']]
+    "%s" "\n%s" % [lines, ANIMALS_AND_ACTIONS['fly']]
   end
 
   def self.stanza(number)
@@ -51,7 +49,7 @@ class FoodChain
     when 0
       first_two_lines(number)
     when 1
-      "\n%s" "%s" "\n%s" % [first_two_lines(number), third_line(number), ACTION['fly']]
+      "\n%s" "%s" "\n%s" % [first_two_lines(number), third_line(number), ANIMALS_AND_ACTIONS['fly']]
     when 2..6
        "\n%s" "%s" "%s" % [first_two_lines(number), third_line(number), cumulative_lines(number)]
     when 7
