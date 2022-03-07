@@ -15,12 +15,7 @@ class FoodChain
       'horse' => "She's dead, of course!"
     }
 
-    def song
-       total_stanzas = 8
-      (0..total_stanzas - 1).map do |number_of_stanzas|
-        "%s\n" % [stanza(number_of_stanzas)]
-      end.join
-    end
+    private
 
     def first_two_lines(number)
       animal = ANIMALS_AND_ACTIONS.keys[number]
@@ -52,6 +47,15 @@ class FoodChain
       lines = first_two_lines(number) + third_line(number) + cumulative_lines(number)
       number == 0 ?
         lines : "\n%s" % [lines]
+    end
+
+    public
+
+    def song
+       total_stanzas = 8
+      (0..total_stanzas - 1).map do |number_of_stanzas|
+        "%s\n" % [stanza(number_of_stanzas)]
+      end.join
     end
 
   end
