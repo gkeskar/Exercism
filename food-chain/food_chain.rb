@@ -15,12 +15,6 @@ class FoodChain
       'horse' => "She's dead, of course!"
     }
 
-    attr_reader :number_of_stanzas
-
-    def initialize(number_of_stanzas = 8)
-      @number_of_stanzas = number_of_stanzas
-    end
-
     private
 
     def first_two_lines(number)
@@ -58,8 +52,7 @@ class FoodChain
     public
 
     def song
-       total_stanzas = 8
-      (0..total_stanzas - 1).map do |number_of_stanzas|
+      (0..7).map do |number_of_stanzas|
         "%s\n" % [stanza(number_of_stanzas)]
       end.join
     end
