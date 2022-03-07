@@ -15,6 +15,12 @@ class FoodChain
       'horse' => "She's dead, of course!"
     }
 
+    attr_reader :number_of_stanzas
+
+    def initialize(number_of_stanzas = 8)
+      @number_of_stanzas = number_of_stanzas
+    end
+
     private
 
     def first_two_lines(number)
