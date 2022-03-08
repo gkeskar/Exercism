@@ -1,7 +1,5 @@
 class FoodChain
 
-  class << self
-
     OPENING_PHRASE = "I know an old lady who swallowed a"
 
     ANIMALS_AND_ACTIONS = {
@@ -15,11 +13,20 @@ class FoodChain
       'horse' => "She's dead, of course!"
     }
 
-    private
+    def self.song
+      new.to_s
+    end
+
+    def to_s
+      (0..7).each_with_object("") do |number_of_stanzas, lines|
+        lines << "%s\n" % [stanza(number_of_stanzas)]
+      end
+    end
+
 
     def first_two_lines(number)
       animal = ANIMALS_AND_ACTIONS.keys[number]
-        action = animal == 'spider' ? "It " + ANIMALS_AND_ACTIONS['spider'] : action = ANIMALS_AND_ACTIONS[animal]
+      action = animal == 'spider' ? "It " + ANIMALS_AND_ACTIONS['spider'] : action = ANIMALS_AND_ACTIONS[animal]
       "%s %s.\n%s" % [OPENING_PHRASE, animal, action]
     end
 
@@ -40,7 +47,7 @@ class FoodChain
       lines = number.downto(2).each_with_object("") do | number_of_stanzas, result |
         result << third_line(number_of_stanzas - 1)
       end
-      "%s" "\n%s" % [lines, ANIMALS_AND_ACTIONS['fly']]
+      "%s\n%s" % [lines, ANIMALS_AND_ACTIONS['fly']]
     end
 
     def stanza(number)
@@ -49,18 +56,8 @@ class FoodChain
         lines : "\n%s" % [lines]
     end
 
-    public
-
-    def song
-      (0..7).map do |number_of_stanzas|
-        "%s\n" % [stanza(number_of_stanzas)]
-      end.join
-    end
-
-  end
-
 end
 
 if $PROGRAM_NAME == __FILE__
-  puts FoodChain.song()
+  puts FoodChain.song
 end
