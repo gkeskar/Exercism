@@ -19,8 +19,8 @@ class FoodChain
 
     def to_s
       (0..7).each_with_object("") do |number_of_stanzas, lines|
-        lines << "%s\n" % [stanza(number_of_stanzas)]
-      end
+        lines << "%s\n\n" % [stanza(number_of_stanzas)]
+      end.chomp
     end
 
 
@@ -51,9 +51,7 @@ class FoodChain
     end
 
     def stanza(number)
-      lines = first_two_lines(number) + third_line(number) + cumulative_lines(number)
-      number == 0 ?
-        lines : "\n%s" % [lines]
+      first_two_lines(number) + third_line(number) + cumulative_lines(number)
     end
 
 end
