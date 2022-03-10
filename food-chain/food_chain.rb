@@ -1,11 +1,12 @@
 class FoodChain
 
     OPENING_PHRASE = "I know an old lady who swallowed a"
+
     ANIMAL_PHRASE_PREFIX = 'She swallowed the %<animal>s to catch the %<prior_animal>s'
-    ANIMAL_PHRASE_SUFFIX = 'that %<animal_action>s'
+
     ANIMALS_AND_ACTIONS = {
       'fly'     => "I don't know why she swallowed the fly. Perhaps she'll die.",
-      'spider'  => "wriggled and jiggled and tickled inside her.",
+      'spider'  => "It wriggled and jiggled and tickled inside her.",
       'bird'    => "How absurd to swallow a bird!",
       'cat'     => "Imagine that, to swallow a cat!",
       'dog'     => "What a hog, to swallow a dog!",
@@ -22,7 +23,7 @@ class FoodChain
 
     def first_two_lines(number)
       animal = ANIMALS_AND_ACTIONS.keys[number]
-      action = animal == 'spider' ? "It " + ANIMALS_AND_ACTIONS['spider'] : action = ANIMALS_AND_ACTIONS[animal]
+      action = ANIMALS_AND_ACTIONS[animal]
       "%s %s.\n%s" % [OPENING_PHRASE, animal, action]
     end
 
@@ -31,18 +32,19 @@ class FoodChain
     end
 
     def third_line_suffix(animal)
-      ANIMAL_PHRASE_SUFFIX % {animal_action: ANIMALS_AND_ACTIONS[animal]}
+      return ANIMALS_AND_ACTIONS[animal].gsub("It","that") if animal == 'spider'
     end
 
     def cumulative_lines(number)
-      return "" if  number == 0 || number == 7
+      return "" if number == 0 || number == ANIMALS_AND_ACTIONS.length - 1
       lines = number.downto(1).each_with_object("") do | number_of_stanzas, result |
         animal = ANIMALS_AND_ACTIONS.keys[number_of_stanzas]
-        previous_animal = ANIMALS_AND_ACTIONS.keys[number_of_stanzas - 1]
+        prior_animal = ANIMALS_AND_ACTIONS.keys[number_of_stanzas - 1]
         action = ANIMALS_AND_ACTIONS[animal]
-        third_line_prefix = ANIMAL_PHRASE_PREFIX % {animal: animal, prior_animal: previous_animal}
-        third_line_suffix_for_animal?(previous_animal) ?
-          third_line = "%s %s" % [third_line_prefix,third_line_suffix(previous_animal)] : third_line = third_line_prefix
+        second_line = (number)
+        third_line_prefix = ANIMAL_PHRASE_PREFIX % {animal: animal, prior_animal: prior_animal}
+        third_line_suffix_for_animal?(prior_animal) ?
+          third_line = "%s %s" % [third_line_prefix,third_line_suffix(prior_animal)] : third_line = third_line_prefix
         result << "\n%s." % [third_line.chomp('.')]
       end
       "%s\n%s" % [lines, ANIMALS_AND_ACTIONS['fly']]
