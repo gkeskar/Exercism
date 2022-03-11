@@ -41,9 +41,12 @@ class FoodChain
       ("%s %s" % [third_line_prefix,third_line_suffix]).strip.chomp('.')
     end
 
+    def build_cumulative_lines?(number)
+      (1..ANIMALS_AND_ACTIONS.length - 2).include?(number)
+    end
+
     def cumulative_lines(number)
-      second_to_second_last_stanza = 1..ANIMALS_AND_ACTIONS.length - 2
-      return '' unless second_to_second_last_stanza.include?(number)
+      return '' unless build_cumulative_lines?(number)
       number.downto(1).each_with_object(lines = '') do | stanza |
         lines << "\n%s." % [third_line(stanza)]
       end
