@@ -40,18 +40,24 @@ class FoodChain
       "%s %s.\n%s" % [OPENING_PHRASE, animal(number), action(number)]
     end
 
-    def third_line(number)
-      third_line_prefix = ANIMAL_PHRASE_PREFIX % {animal: animal(number), prior_animal: prior_animal(number)}
-      third_line_suffix = prior_animal(number) == 'spider' ? prior_animal_action(number).sub('It','that') : ''
-      ("%s %s" % [third_line_prefix,third_line_suffix]).strip.chomp('.')
+    def third_line_prefix(number)
+      ANIMAL_PHRASE_PREFIX % {animal: animal(number), prior_animal: prior_animal(number)}
     end
 
-    def build_cumulative_lines?(number)
+    def third_line_suffix(number)
+      prior_animal(number) == 'spider' ? prior_animal_action(number).sub('It','that') : ''
+    end
+
+    def third_line(number)
+      ("%s %s" % [third_line_prefix(number),third_line_suffix(number)]).strip.chomp('.')
+    end
+
+    def should_include_cumulative_lines?(number)
       (1..ANIMALS.length - 2).include?(number)
     end
 
     def cumulative_lines(number)
-      return '' unless build_cumulative_lines?(number)
+      return '' unless should_include_cumulative_lines?(number)
       number.downto(1).each_with_object(lines = '') do | stanza |
         lines << "\n%s." % [third_line(stanza)]
       end
@@ -65,8 +71,8 @@ class FoodChain
     public
 
     def song
-      ANIMALS.length.times.each_with_object('') do |stanza, lines|
-        lines << "%s\n\n" % [stanza(stanza)]
+      ANIMALS.length.times.each_with_object('') do |z, lines|
+        lines << "%s\n\n" % [stanza(z)]
       end.chomp
     end
 
