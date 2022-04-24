@@ -1,6 +1,6 @@
-class CharNotSupportedError < ArgumentError
+class NucleotideNotSupportedError < ArgumentError
 
-  def initialize(message = 'Char does not incude in supported Nucleotide')
+  def initialize(message = 'The supported nucleotides are A, C, G, and T')
     super
   end
 
@@ -8,28 +8,32 @@ end
 
 class Nucleotide
 
-  attr_reader :input
-
-  def initialize(input)
-    raise CharNotSupportedError unless input.chars.all?{|c| ['A', 'C', 'G', 'T'].include?(c)}
-    @input = input
+  def self.from_dna(sequence)
+    new(sequence)
   end
 
-  def self.from_dna(input)
-    new(input)
+  private
+
+  attr_reader :sequence
+
+  def initialize(sequence)
+    raise NucleotideNotSupportedError unless sequence.chars.all?{|c| ['A', 'C', 'G', 'T'].include?(c)}
+    @sequence = sequence
   end
+
+  public
 
   def histogram
     empty_histogram  = { 'A' => 0, 'T' => 0, 'C' => 0, 'G' => 0 }
-    return empty_histogram if input == ""
-    input.chars.inject(empty_histogram) do | output, nucleotide |
-      output[nucleotide] = input.count(nucleotide)
+    return empty_histogram if sequence == ""
+    sequence.chars.inject(empty_histogram) do | output, nucleotide |
+      output[nucleotide] = sequence.count(nucleotide)
       output
     end
   end
 
-  def count(char)
-    input.count(char)
+  def count(nucleotide)
+    sequence.count(nucleotide)
   end
 
 end
