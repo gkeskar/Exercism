@@ -1,6 +1,6 @@
 class NotANucleotideError < ArgumentError
 
-  def initialize(message = 'The possible nucleotides are A, C, G, and T')
+  def initialize(message = 'Must use a nucleotide.')
     super
   end
 
@@ -32,15 +32,14 @@ class Nucleotide
   end
 
   def valid?
-    sequence.all?{ |c| NUCLEOTIDES.include?(c) }
+    sequence.all?{ |nucleotide| NUCLEOTIDES.include?(nucleotide) }
   end
 
   public
 
   def histogram
-    return EMPTY_HISTOGRAM if sequence.empty?
-    sequence.each_with_object(EMPTY_HISTOGRAM.clone) do |nucleotide,output|
-      output[nucleotide] = sequence.count(nucleotide)
+    sequence.each_with_object(EMPTY_HISTOGRAM.clone) do |nucleotide,histogram|
+      histogram[nucleotide] = sequence.count(nucleotide)
     end
   end
 
