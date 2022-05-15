@@ -8,7 +8,6 @@ end
 
 class Nucleotide
 
-  NUCLEOTIDES = %w[A C G T]
   HISTOGRAM =
     {
       'A' => 0,
@@ -32,7 +31,7 @@ class Nucleotide
   end
 
   def valid?
-    sequence.all?{ |nucleotide| NUCLEOTIDES.include?(nucleotide) }
+    (sequence - HISTOGRAM.keys).empty?
   end
 
   public
