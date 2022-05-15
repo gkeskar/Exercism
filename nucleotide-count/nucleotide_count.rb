@@ -9,14 +9,14 @@ end
 class Nucleotide
 
   NUCLEOTIDES = %w[A C G T]
-  EMPTY_HISTOGRAM =
+  HISTOGRAM =
     {
       'A' => 0,
       'T' => 0,
       'C' => 0,
       'G' => 0
     }
-  private_constant :EMPTY_HISTOGRAM
+  private_constant :HISTOGRAM
 
   def self.from_dna(sequence)
     new(sequence)
@@ -38,7 +38,7 @@ class Nucleotide
   public
 
   def histogram
-    sequence.each_with_object(EMPTY_HISTOGRAM.clone) do |nucleotide,histogram|
+    sequence.each_with_object(HISTOGRAM.clone) do |nucleotide, histogram|
       histogram[nucleotide] = sequence.count(nucleotide)
     end
   end
