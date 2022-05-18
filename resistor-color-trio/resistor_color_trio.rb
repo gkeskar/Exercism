@@ -31,17 +31,17 @@ class ResistorColorTrio
   end
 
   def valid?
-    @colors.all?{|color| COLOR_CODES.keys.include?(color)}
+    @colors.all? { |color| COLOR_CODES.keys.include?(color) }
   end
 
   def resistor_color_band_one_two
-    colors.first(2).reverse.map.with_index.reduce(0) do |sum , (color, inx)|
-      sum + COLOR_CODES[color] * 10 ** inx
+    colors.first(2).reverse.map.with_index.reduce(0) do |sum , (color, index)|
+      sum + COLOR_CODES[color] * 10**index
     end
   end
 
   def resistor_color_band_three
-    10 ** COLOR_CODES[colors.last]
+    10**COLOR_CODES[colors.last]
   end
 
   def value_units
@@ -55,8 +55,7 @@ class ResistorColorTrio
   def label
     value = value_units[0]
     unit = value_units[1]
-    result = "%s %s" %[value, unit]
-    "Resistor value: #{result}"
+    "Resistor value: %s %s" %[value, unit]
   end
 
 end
