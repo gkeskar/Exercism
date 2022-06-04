@@ -28,7 +28,7 @@ class Proverb
     if qualifier.empty? ? optional_qualifier = first_object_of_chain :
         optional_qualifier = "%s %s" %[qualifier, first_object_of_chain]
     end
-    final_phrase = "And all for the want of a #{optional_qualifier}."
+    final_phrase = "And all for the want of a %s." %[optional_qualifier]
     phrases + final_phrase
   end
 
