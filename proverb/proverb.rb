@@ -8,10 +8,9 @@ class Proverb
     @qualifier = qualifier
   end
 
-  def repetitive_pharses(things)
-    phrase = "For want of a %s the %s was lost.\n" % [things.first, things.last]
-    return phrase if things.length == 2
-    repetitive_pharses(things.take(2)) + repetitive_pharses(things.drop(1))
+  def repetitive_pharses(things, phrase = "")
+    return phrase if things.length < 2
+    repetitive_pharses(things.drop(1), phrase + "For want of a %s the %s was lost.\n" % [things[0], things[1]])
   end
 
   def final_phrase(qualifier)
