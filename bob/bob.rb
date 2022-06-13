@@ -1,7 +1,7 @@
 class Bob
 
   def self.hey(remark)
-    remark = remark.gsub(/['\d\s+]/,"")
+    remark = remark.gsub(/['\d\s]/,"")
     if /^[A-Z]+\?$/.match(remark)
       "Calm down, I know what I'm doing!"
     elsif remark.end_with?('?')
