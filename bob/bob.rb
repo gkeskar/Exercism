@@ -4,11 +4,11 @@ class Bob
     remark = remark.gsub(/['\d\s]/,"")
     if /^[A-Z]+\?$/.match(remark)
       "Calm down, I know what I'm doing!"
-    elsif remark.end_with?('?')
+    elsif /^[\w\D]*\?$/.match(remark)
       "Sure."
     elsif /^[A-Z]+$/.match(remark.gsub(/\W/,""))
        "Whoa, chill out!"
-    elsif remark.empty?
+    elsif /^$/.match(remark)
        "Fine. Be that way!"
     else
        "Whatever."
