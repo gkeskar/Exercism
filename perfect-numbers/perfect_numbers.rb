@@ -10,14 +10,10 @@ class PerfectNumber
 
   def self.classify(number)
     raise NaturalNumberError if number < 0
-    factors = factors(number)
-    return 'perfect' if factors.sum == number
-    return 'deficient' if factors.sum < number
-    return 'abundant' if factors.sum > number
-  end
-
-  def self.factors(number)
-    (1..number-1).filter{ |num| number%num == 0 }
+    aliquot_sum = (1...number).filter{ |divisor| number%divisor == 0 }.reduce(0, :+)
+    return 'perfect' if aliquot_sum == number
+    return 'deficient' if aliquot_sum < number
+    return 'abundant' if aliquot_sum > number
   end
 
 end
