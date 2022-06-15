@@ -1,3 +1,11 @@
+class NaturalNumberError < RuntimeError
+
+  def initialize(message = 'Not supported a negative number')
+    super
+  end
+
+end
+
 class PerfectNumber
 
   def self.classify(number)
@@ -9,19 +17,7 @@ class PerfectNumber
   end
 
   def self.factors(number)
-    x = 2
-    factors = [1]
-    a = 1
-    while x < number
-      a, b = number.divmod(x)
-
-      if b == 0
-        factors << x
-        x = x + 1
-      else
-        x = x + 1
-      end
-    end
-    factors
+    (1..number-1).filter{ |num| number%num == 0 }
   end
+
 end
